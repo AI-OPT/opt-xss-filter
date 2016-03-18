@@ -1,0 +1,122 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+group="com.ai.opt.xss.filter"
+
+ext{
+    builtBy="gradle 2.2"
+    publishUserName = "runnerdev"
+    publishUserPassword = "runnerdev"
+//    publishURL="http://223.202.119.155:18081/nexus/content/repositories/thirdparty/"
+    //测试分支与生产分支发布URL
+    		publishURL = "http://10.1.228.199:18081/nexus/content/repositories/snapshots/"
+    //jar包的版本信息
+    appVersion="1.0-SNAPSHOT"
+    appName="opt-xss-firewall" 	
+}
+
+sourceCompatibility = 1.7
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+sourceSets {
+    main {
+        java { srcDirs = ['src/main/java']}
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}
+
+
+repositories {
+	maven{ url "http://10.1.228.199:18081/nexus/content/groups/public/"}
+}
+ 
+
+jar{
+	baseName appName
+    version appVersion  
+    manifest {
+        attributes 'packageName': appName, 'Built-By': builtBy,'create-date': new Date().format('yyyy-MM-dd HH:mm:ss')
+    }
+}
+
+artifacts {archives jar}
+
+
+publishing {
+    publications {
+        publishing.publications.create("appJarPublish", MavenPublication) {
+            groupId group
+            artifactId appName
+            version appVersion
+            artifact  jar
+            pom.withXml {
+                asNode().children().last() + {
+                    delegate.dependencies {
+                        delegate.dependency {
+                            delegate.groupId("org.slf4j")
+                            delegate.artifactId("slf4j-api")
+                            delegate.version("1.7.12")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("commons-logging")
+                            delegate.artifactId("commons-logging")
+                            delegate.version("1.2")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("commons-lang")
+                            delegate.artifactId("commons-lang")
+                            delegate.version("2.6")
+                        }   
+                        delegate.dependency {
+                            delegate.groupId("javax.servlet.jsp")
+                            delegate.artifactId("javax.servlet.jsp-api")
+                            delegate.version("2.3.1")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("javax.servlet")
+                            delegate.artifactId("javax.servlet-api")
+                            delegate.version("3.1.0")
+                        }
+                                             
+                        delegate.dependency {
+                            delegate.groupId("org.owasp.antisamy")
+                            delegate.artifactId("antisamy")
+                            delegate.version("1.5.3")
+                        }
+                        delegate.dependency {
+                            delegate.groupId("com.alibaba")
+                            delegate.artifactId("fastjson")
+                            delegate.version("1.2.6")
+                        }
+                    }
+                }
+            }
+        } 
+    }
+    repositories {
+        maven {
+            url  publishURL
+            credentials {
+                username = publishUserName
+                password = publishUserPassword
+            }
+        }
+    }
+}
+
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.12'
+    compile 'commons-logging:commons-logging:1.2'
+	compile 'commons-lang:commons-lang:2.6'
+	compile "javax.servlet:javax.servlet-api:3.1.0"
+	compile "javax.servlet.jsp:javax.servlet.jsp-api:2.3.1"
+    compile 'org.owasp.antisamy:antisamy:1.5.3'
+    compile 'com.alibaba:fastjson:1.2.6'
+}
+
+
+
