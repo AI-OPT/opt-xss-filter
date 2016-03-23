@@ -68,7 +68,7 @@ public class XSSFilter implements Filter {
         // 判断uri是否包含项目名称
         String uriPath = ((HttpServletRequest) request).getRequestURI();
         if (isIgnorePath(uriPath)) {
-        	log.info("ignore xssfilter,path["+uriPath+"] no need XssFilter, go ahead...");
+        	log.info("ignore xssfilter,path["+uriPath+"] pass through XssFilter, go ahead...");
             chain.doFilter(request, response);
             return;
         } else {
