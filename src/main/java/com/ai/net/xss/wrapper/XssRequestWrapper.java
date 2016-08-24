@@ -110,6 +110,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
                 str = str.replaceAll((antiSamy.scan("&nbsp;", policy)).getCleanHTML(), "");
                 str = StringEscapeUtils.unescapeHtml(str);
                 str = str.replaceAll("&quot;", "\"");
+                str = str.replaceAll("&amp;", "&");
                 log.info("xssfilter value after xssClean：" + str);
                 return str;
         	}
