@@ -93,7 +93,7 @@ public class XSSFilter implements Filter {
         }
         else{
         	for(String ignorePath:ignorePathList){
-        		if(servletPath.contains(ignorePath)){
+        		if(!StringUtil.isBlank(ignorePath)&&servletPath.contains(ignorePath.trim())){
         			return true;
         		}
         	}
