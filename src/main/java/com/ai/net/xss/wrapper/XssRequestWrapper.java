@@ -97,11 +97,11 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
 
     private String xssClean(String paramValue) {
         AntiSamy antiSamy = new AntiSamy();
-        log.info("ignoreParamValueList="+JSON.toJSONString(ignoreParamValueList));
+        log.debug("ignoreParamValueList="+JSON.toJSONString(ignoreParamValueList));
         try {
-        	log.info("raw value before xssClean: " + paramValue);
+        	log.debug("raw value before xssClean: " + paramValue);
         	if(isIgnoreParamValue(paramValue)){
-        		log.info("ignore the xssClean,keep the raw paramValue: " + paramValue);
+        		log.debug("ignore the xssClean,keep the raw paramValue: " + paramValue);
         		return paramValue;
         	}
         	else{
@@ -111,7 +111,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
                 str = StringEscapeUtils.unescapeHtml(str);
                 str = str.replaceAll("&quot;", "\"");
                 str = str.replaceAll("&amp;", "&");
-                log.info("xssfilter value after xssClean：" + str);
+                log.debug("xssfilter value after xssClean：" + str);
                 return str;
         	}
             
