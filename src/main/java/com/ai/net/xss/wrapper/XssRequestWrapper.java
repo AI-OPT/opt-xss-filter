@@ -22,6 +22,13 @@ import com.ai.net.xss.util.CollectionUtil;
 import com.ai.net.xss.util.StringUtil;
 import com.alibaba.fastjson.JSON;
 
+/**
+ * HttpServletRequest的封装器
+ * Date: 2017年2月9日 <br>
+ * Copyright (c) 2017 asiainfo.com <br>
+ * 
+ * @author
+ */
 public class XssRequestWrapper extends HttpServletRequestWrapper {
 
     private static Logger log=LoggerFactory.getLogger(XssRequestWrapper.class);
@@ -54,6 +61,9 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
         this.ignoreParamValueList=ignoreParamValueList;
     }
 
+    /**
+     * 获取参数Map
+     */
     @SuppressWarnings("rawtypes")
     public Map<String, String[]> getParameterMap() {
         Map<String, String[]> request_map = super.getParameterMap();
@@ -70,6 +80,9 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
         return request_map;
     }
 
+    /**
+     * 获取参数值
+     */
     public String[] getParameterValues(String paramString) {
         String[] arrayOfString1 = super.getParameterValues(paramString);
         if (arrayOfString1 == null)
@@ -81,6 +94,9 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
         return arrayOfString2;
     }
 
+    /**
+     * 获取参数
+     */
     public String getParameter(String paramString) {
         String str = super.getParameter(paramString);
         if (str == null)
@@ -88,6 +104,9 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
         return xssClean(str);
     }
 
+    /**
+     * 获取报文头信息
+     */
     public String getHeader(String paramString) {
         String str = super.getHeader(paramString);
         if (str == null)
@@ -95,6 +114,12 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
         return xssClean(str);
     }
 
+    /**
+     * 
+     * @param paramValue
+     * @return
+     * @author
+     */
     private String xssClean(String paramValue) {
         AntiSamy antiSamy = new AntiSamy();
         log.info("ignoreParamValueList="+JSON.toJSONString(ignoreParamValueList));
@@ -122,6 +147,12 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
         return paramValue;
     }
     
+    /**
+     * 判断白名单
+     * @param paramValue
+     * @return
+     * @author
+     */
     private boolean isIgnoreParamValue(String paramValue) {
     	if(StringUtil.isBlank(paramValue)){
     		return true;

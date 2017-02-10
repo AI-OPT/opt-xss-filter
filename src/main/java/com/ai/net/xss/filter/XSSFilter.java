@@ -21,17 +21,38 @@ import com.ai.net.xss.util.StringUtil;
 import com.ai.net.xss.wrapper.XssRequestWrapper;
 import com.alibaba.fastjson.JSON;
 
+/**
+ * XSS攻击过滤器
+ * Date: 2017年2月9日 <br>
+ * Copyright (c) 2017 asiainfo.com <br>
+ * 
+ * @author
+ */
 public class XSSFilter implements Filter {
 
     private static Logger log=LoggerFactory.getLogger(XSSFilter.class);
     
-    private static final String IGNORE_PATH="ignorePath";  //可放行的请求路径
-    private static final String IGNORE_PARAM_VALUE="ignoreParamValue";//可放行的参数值
+    /**
+     * 可放行的请求路径
+     */
+    private static final String IGNORE_PATH="ignorePath";
+    /**
+     * 可放行的参数值
+     */
+    private static final String IGNORE_PARAM_VALUE="ignoreParamValue";
 
-    private List<String> ignorePathList;//可放行的请求路径列表
-    private List<String> ignoreParamValueList;//可放行的参数值列表
+    /**
+     * 可放行的请求路径列表
+     */
+    private List<String> ignorePathList;
+    /**
+     * 可放行的参数值列表
+     */
+    private List<String> ignoreParamValueList;
     
-    //默认放行单点登录的登出响应(响应中包含samlp:LogoutRequest标签，直接放行)
+    /**
+     * 默认放行单点登录的登出响应(响应中包含samlp:LogoutRequest标签，直接放行)
+     */
     private static final String CAS_LOGOUT_RESPONSE_TAG="samlp:LogoutRequest";
 
     @Override
@@ -46,13 +67,17 @@ public class XSSFilter implements Filter {
         if (!StringUtil.isBlank(ignoreParamValues)) {
         	String[] ignoreParamValueArr = ignoreParamValues.split(",");
         	ignoreParamValueList=Arrays.asList(ignoreParamValueArr);
-        	//默认放行单点登录的登出响应(响应中包含samlp:LogoutRequest标签，直接放行)
+        	/**
+        	 * 默认放行单点登录的登出响应(响应中包含samlp:LogoutRequest标签，直接放行)
+        	 */
         	if(!ignoreParamValueList.contains(CAS_LOGOUT_RESPONSE_TAG)){
         		ignoreParamValueList.add(CAS_LOGOUT_RESPONSE_TAG);
         	}
         }
         else{
-        	//默认放行单点登录的登出响应(响应中包含samlp:LogoutRequest标签，直接放行)
+        	/**
+        	 * 默认放行单点登录的登出响应(响应中包含samlp:LogoutRequest标签，直接放行)
+        	 */
         	ignoreParamValueList=new ArrayList<String>();
         	ignoreParamValueList.add(CAS_LOGOUT_RESPONSE_TAG);
         }
@@ -65,7 +90,9 @@ public class XSSFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         log.info("XSS fiter [XSSFilter] starting");
-        // 判断uri是否包含项目名称
+        /**
+         * 判断uri是否包含项目名称
+         */
         String uriPath = ((HttpServletRequest) request).getRequestURI();
         if (isIgnorePath(uriPath)) {
         	log.info("ignore xssfilter,path["+uriPath+"] pass through XssFilter, go ahead...");
@@ -84,6 +111,7 @@ public class XSSFilter implements Filter {
     }
 
     private boolean isIgnorePath(String servletPath) {
+    	
     	if(StringUtil.isBlank(servletPath)){
     		return true;
     	}

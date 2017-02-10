@@ -4,12 +4,25 @@ import java.security.SecureRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 字符串工具类
+ * Date: 2017年2月9日 <br>
+ * Copyright (c) 2017 asiainfo.com <br>
+ * 
+ * @author
+ */
 public final class StringUtil {
 
     private StringUtil() {
 
     }
 
+    /**
+     * 判断字符是否为空
+     * @param str
+     * @return
+     * @author
+     */
     public static boolean isBlank(String str) {
         if (null == str) {
             return true;
@@ -27,6 +40,13 @@ public final class StringUtil {
         return obj.toString();
     }
 
+    /**
+     * 截取字符串
+     * @param strSrc
+     * @param iMaxLength
+     * @return
+     * @author
+     */
     public static String restrictLength(String strSrc, int iMaxLength) {
         if (strSrc == null) {
             return null;
@@ -52,6 +72,12 @@ public final class StringUtil {
         return strResult;
     }
 
+    /**
+     * 获取随机字符串
+     * @param length
+     * @return
+     * @author
+     */
     public static String getRandomString(int length) {
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         // Random random = new Random();
@@ -131,7 +157,7 @@ public final class StringUtil {
         return buf.toString();
     }
 
-    // 默认值为无
+    //默认值为无
     public static String toString2(Object obj) {
         if (obj == null) {
             return "无";
