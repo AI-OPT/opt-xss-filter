@@ -36,7 +36,7 @@ public class XSSFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-    	log.info("XSS fiter [XSSFilter] init start ...");
+    	log.debug("XSS fiter [XSSFilter] init start ...");
     	String ignorePaths = filterConfig.getInitParameter(IGNORE_PATH);
         String ignoreParamValues = filterConfig.getInitParameter(IGNORE_PARAM_VALUE);
         if (!StringUtil.isBlank(ignorePaths)) {
@@ -56,31 +56,31 @@ public class XSSFilter implements Filter {
         	ignoreParamValueList=new ArrayList<String>();
         	ignoreParamValueList.add(CAS_LOGOUT_RESPONSE_TAG);
         }
-        log.info("ignorePathList="+JSON.toJSONString(ignorePathList));
-        log.info("ignoreParamValueList="+JSON.toJSONString(ignoreParamValueList));
-        log.info("XSS fiter [XSSFilter] init end");
+        log.debug("ignorePathList="+JSON.toJSONString(ignorePathList));
+        log.debug("ignoreParamValueList="+JSON.toJSONString(ignoreParamValueList));
+        log.debug("XSS fiter [XSSFilter] init end");
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        log.info("XSS fiter [XSSFilter] starting");
+        log.debug("XSS fiter [XSSFilter] starting");
         // 判断uri是否包含项目名称
         String uriPath = ((HttpServletRequest) request).getRequestURI();
         if (isIgnorePath(uriPath)) {
-        	log.info("ignore xssfilter,path["+uriPath+"] pass through XssFilter, go ahead...");
+        	log.debug("ignore xssfilter,path["+uriPath+"] pass through XssFilter, go ahead...");
             chain.doFilter(request, response);
             return;
         } else {
-        	log.info("has xssfiter path["+uriPath+"] need XssFilter, go to XssRequestWrapper");
+        	log.debug("has xssfiter path["+uriPath+"] need XssFilter, go to XssRequestWrapper");
             chain.doFilter(new XssRequestWrapper((HttpServletRequest) request,ignoreParamValueList), response);
         }
-        log.info("XSS fiter [XSSFilter] stop");
+        log.debug("XSS fiter [XSSFilter] stop");
     }
 
     @Override
     public void destroy() {
-        log.info("XSS fiter [XSSFilter] destroy");
+        log.debug("XSS fiter [XSSFilter] destroy");
     }
 
     private boolean isIgnorePath(String servletPath) {
