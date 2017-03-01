@@ -7,6 +7,15 @@ import java.util.List;
 
 public final class CollectionUtil {
 	private CollectionUtil(){}
+	
+	/**
+	 * 判断集合是否为空
+	 * @param collection 集合
+	 * @return true/false
+	 * @ApiDocMethod
+	 * @ApiCode 
+	 * @RestRelativeURL
+	 */
     public static boolean isEmpty(Collection<?> collection) {
         if (null == collection) {
             return true;

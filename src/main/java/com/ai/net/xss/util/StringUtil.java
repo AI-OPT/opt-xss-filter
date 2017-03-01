@@ -9,7 +9,15 @@ public final class StringUtil {
     private StringUtil() {
 
     }
-
+    
+    /**
+     * 判断字符串是否为空
+     * @param str 字符串
+     * @return
+     * @ApiDocMethod
+     * @ApiCode 
+     * @RestRelativeURL
+     */
     public static boolean isBlank(String str) {
         if (null == str) {
             return true;
@@ -26,7 +34,14 @@ public final class StringUtil {
         }
         return obj.toString();
     }
-
+    
+    /**
+     * 截取字符串
+     * @param strSrc
+     * @param iMaxLength
+     * @return
+     * @author
+     */
     public static String restrictLength(String strSrc, int iMaxLength) {
         if (strSrc == null) {
             return null;
@@ -51,7 +66,14 @@ public final class StringUtil {
         }
         return strResult;
     }
+    
 
+    /**
+     * 获取随机字符串
+     * @param length
+     * @return
+     * @author
+     */
     public static String getRandomString(int length) {
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         // Random random = new Random();
