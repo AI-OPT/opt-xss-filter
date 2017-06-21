@@ -112,6 +112,7 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
                 str = str.replaceAll("&quot;", "\"");
                 str = str.replaceAll("&amp;", "&");
                 str = str.replaceAll("'", "'");
+                str = str.replaceAll ("'", "＇");
                 log.debug("xssfilter value after xssClean锛�" + str);
                 return str;
         	}
