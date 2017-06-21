@@ -12,7 +12,7 @@ ext{
     //测试分支与生产分支发布URL
     		publishURL = "http://10.1.228.199:18081/nexus/content/repositories/snapshots/"
     //jar包的版本信息
-    appVersion="1.1-SNAPSHOT"
+    appVersion="1.2-SNAPSHOT"
     appName="opt-xss-firewall" 	
 }
 
