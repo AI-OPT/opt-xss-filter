@@ -111,14 +111,15 @@ public class XssRequestWrapper extends HttpServletRequestWrapper {
                 str = StringEscapeUtils.unescapeHtml(str);
                 str = str.replaceAll("&quot;", "\"");
                 str = str.replaceAll("&amp;", "&");
-                log.debug("xssfilter value after xssClean：" + str);
+                str = str.replaceAll("'", "'");
+                log.debug("xssfilter value after xssClean锛�" + str);
                 return str;
         	}
             
         } catch (ScanException e) {
-            log.error("scan failed ，parmter is [" + paramValue + "]", e);
+            log.error("scan failed 锛宲armter is [" + paramValue + "]", e);
         } catch (PolicyException e) {
-            log.error("antisamy convert failed ，parmter is [" + paramValue + "]", e);
+            log.error("antisamy convert failed 锛宲armter is [" + paramValue + "]", e);
         }
         return paramValue;
     }
